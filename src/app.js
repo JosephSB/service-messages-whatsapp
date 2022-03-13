@@ -37,8 +37,8 @@ venom
             console.log('Session name: ', session);
         },
         { 
-            logQR: false,
-            autoClose: 0,
+            //logQR: false,
+            //autoClose: 0,
             //headless: false,
             browserArgs: chromiumArgs,
             useChrome: false, 
