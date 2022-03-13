@@ -1,0 +1,23 @@
+{
+  "name": "apiwhatsapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt-nodejs": "^0.0.3",
+    "colors": "^1.4.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.3",
+    "venom-bot": "^4.0.9"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
