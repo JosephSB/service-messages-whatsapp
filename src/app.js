@@ -39,7 +39,10 @@ venom
         { 
             logQR: false,
             autoClose: 0,
+            //headless: false,
             browserArgs: chromiumArgs,
+            useChrome: false, 
+            //browserArgs: ['--no-sandbox']
         }
     )
     .then((client) => {
