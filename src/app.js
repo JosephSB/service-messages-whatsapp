@@ -41,6 +41,7 @@ venom
             //autoClose: 0,
             //headless: false,
             //browserArgs: chromiumArgs,
+            puppeteerOptions: { args: ['--no-sandbox'] },
             useChrome: false, 
             browserArgs: ['--no-sandbox']
         }
