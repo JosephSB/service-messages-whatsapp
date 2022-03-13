@@ -77,7 +77,7 @@ web_modules/
 .yarn-integrity
 
 # tokens file
-tokens/
+#tokens/
 
 # dotenv environment variable files
 .env

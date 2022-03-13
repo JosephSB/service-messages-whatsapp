@@ -1,0 +1,5 @@
+2022/03/13-11:17:39.340 1c38 Creating DB D:\Preciso\apiWhatsapp\tokens\ocucaje-wsp\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb since it was missing.
+2022/03/13-11:17:39.698 1c38 Reusing MANIFEST D:\Preciso\apiWhatsapp\tokens\ocucaje-wsp\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2022/03/13-11:18:18.638 1a98 Level-0 table #5: started
+2022/03/13-11:18:18.848 1a98 Level-0 table #5: 1257200 bytes OK
+2022/03/13-11:18:18.964 1a98 Delete type=0 #3
