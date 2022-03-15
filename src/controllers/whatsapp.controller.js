@@ -1,30 +1,10 @@
 var colors = require('colors/safe');
+const { getTime } = require('../helpers/time');
 const { isValidListOfNumbers, isValidMessage, isValidURL } = require('../helpers/validator');
+const { sendMessages, sendImages } = require('./venom.controller');
+
 const WhatsappController = () => {};
 
-async function sendMessages(phoneNumbers, message){
-    phoneNumbers.map(phone => {
-        gclient.sendText(phone+'@c.us', message)
-            .then((result) => {
-                console.log(colors.brightGreen("Sending Message to: "+phone))
-            })
-            .catch((erro) => {
-                console.log(colors.brightRed("I cant send the message to: "+phone));
-            });
-    })
-}
-
-async function sendImages(phoneNumbers, UrlImage, description){
-    phoneNumbers.map(phone => {
-        gclient.sendImage(phone+'@c.us',UrlImage,'ocucaje', description)
-            .then((result) => {
-                console.log(colors.brightGreen("Sending Image to: "+phone));
-            })
-            .catch((erro) => {
-                console.log(colors.brightRed("I cant send the Image to: "+phone));
-            });
-    })
-}
 
 WhatsappController.sendMessage = (req,res) =>{
 
@@ -46,13 +26,31 @@ WhatsappController.sendMessage = (req,res) =>{
             error: true
         })
     }
+    
+    let TimeRecived = getTime();
+    console.log(colors.brightYellow("-----------------------------------------------"))
+    console.log(colors.brightYellow(`[${TimeRecived}]: New Request to send messages`))
+    console.log(colors.brightYellow("-----------------------------------------------"))
 
     sendMessages(phoneNumbers,textMessage)
-
-    return res.json({
-        message: "El mensaje se envio correctamente",
-        error: false
-    })
+        .then( (phonesNotShipped) =>{
+            return res.json({
+                message: "El mensaje se envio correctamente",
+                phonesNotShipped,
+                reception: TimeRecived,
+                finished: getTime(),
+                error: false
+            })
+        })
+        .catch( (phonesNotShipped)=>{
+            return res.json({
+                message: "No se pudo enviar el mensaje a todos los numeros",
+                phonesNotShipped,
+                reception: TimeRecived,
+                finished: getTime(),
+                error: false
+            })
+        })
 }
 
 WhatsappController.sendImage = (req,res) =>{
@@ -77,11 +75,31 @@ WhatsappController.sendImage = (req,res) =>{
         })
     }
 
+    let TimeRecived = getTime();
+    console.log(colors.brightYellow("-----------------------------------------------"))
+    console.log(colors.brightYellow(`[${TimeRecived}]: New Request to send images`))
+    console.log(colors.brightYellow("-----------------------------------------------"))
+
     sendImages(phoneNumbers, UrlImage, Description)
-    return res.json({
-        message: "La imagen se envio correctamente",
-        error: false
-    })
+        .then( (phonesNotShipped) =>{
+            return res.json({
+                message: "El imagen se envio correctamente",
+                phonesNotShipped,
+                reception: TimeRecived,
+                finished: getTime(),
+                error: false
+            })
+        })
+        .catch( (phonesNotShipped)=>{
+            return res.json({
+                message: "No se pudo enviar la imagen a todos los numeros",
+                phonesNotShipped,
+                reception: TimeRecived,
+                finished: getTime(),
+                error: false
+            })
+        })
+
 }
 
 

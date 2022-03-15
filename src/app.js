@@ -2,8 +2,7 @@ const express = require("express");
 const path = require("path");
 const cors = require("cors");
 const venom = require('venom-bot');
-const {isConnected} = require("./middlewares/VenomBot.js");
-const chromiumArgs = require("./config/chromiunArgs.js");
+const isConnected = require('./middlewares/verifyConection')
 
 global.isConnectedToVenom = false;
 venom
@@ -22,7 +21,7 @@ venom
     
           var imageBuffer = response;
           require('fs').writeFile(
-            './src/public/qr.png',
+            "qr.png",
             imageBuffer['data'],
             'binary',
             function (err) {
@@ -37,10 +36,12 @@ venom
             console.log('Session name: ', session);
         },
         { 
+            // CONFIG local
             //logQR: false,
             //autoClose: 0,
             //headless: false,
             //browserArgs: chromiumArgs,
+            // CONFIG PROD
             puppeteerOptions: { args: ['--no-sandbox'] },
             useChrome: false, 
             browserArgs: ['--no-sandbox']
@@ -48,7 +49,7 @@ venom
     )
     .then((client) => {
         global.gclient = client
-        global.isConnectedToVenom = true;
+        isConnectedToVenom = true;
     })
     .catch((erro) => {
         console.log("I can't connected to venom-bot", erro);
