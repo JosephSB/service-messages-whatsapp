@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <title>WhatsApp Flash | Conectate </title>
+</head>
+<body>
+    <div>
+        <h1>CONECTATE A <%= account %> </h1>
+        <p>Click en el boton para que puedas escanear el qr</p>
+        <button id="BtnConnect">Conectarme</button>
+        <div id="contentQR"></div>
+        <div>
+            <img id="image">
+        </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>

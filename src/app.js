@@ -1,64 +1,17 @@
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
-const venom = require('venom-bot');
 const isConnected = require('./middlewares/verifyConection')
 
-global.isConnectedToVenom = false;
-venom
-    .create(
-        'ocucaje-wsp',
-        (base64Qr, asciiQR, attempts, urlCode) => {
-          console.log(asciiQR);
-          var matches = base64Qr.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
-            response = {};
-    
-          if (matches.length !== 3) {
-            return new Error('Invalid input string');
-          }
-          response.type = matches[1];
-          response.data = new Buffer.from(matches[2], 'base64');
-    
-          var imageBuffer = response;
-          require('fs').writeFile(
-            "qr.png",
-            imageBuffer['data'],
-            'binary',
-            function (err) {
-              if (err != null) {
-                console.log(err);
-              }
-            }
-          );
-        },
-        (statusSession, session) => {
-            console.log('Status Session: ', statusSession); 
-            console.log('Session name: ', session);
-        },
-        { 
-            // CONFIG local
-            //logQR: false,
-            //autoClose: 0,
-            //headless: false,
-            //browserArgs: chromiumArgs,
-            // CONFIG PROD
-            puppeteerOptions: { args: ['--no-sandbox'] },
-            useChrome: false, 
-            browserArgs: ['--no-sandbox']
-        }
-    )
-    .then((client) => {
-        global.gclient = client
-        isConnectedToVenom = true;
-    })
-    .catch((erro) => {
-        console.log("I can't connected to venom-bot", erro);
-    });
+global.gclient = false;
 
 const app = express();
 const PublicDir = express.static(path.join(__dirname + "/public"));
+app.set('views', path.join(__dirname + '/pages/'))
+app.engine('html', require('ejs').renderFile)
+app.set('view engine', 'ejs');
 
-app.set("port", process.env.PORT || 3000);
+app.set("port", process.env.PORT || 4000);
 
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
@@ -68,6 +21,13 @@ app.use(PublicDir);
 app.get("/", (req, res) => {
     res.send("WHATSAPP FLASH!");
 });
+app.get("/access/:account", (req,res) =>{
+    const WhatsAppAcount = (req.params.account).toUpperCase()
+    res.render("index.html",{
+        account: WhatsAppAcount
+    })
+})
+app.use("/api/connect",require('./router/conection.router.js'));
 app.use("/api/whatsapp",isConnected, require('./router/whatsapp.router.js'));
 
 module.exports = app;
